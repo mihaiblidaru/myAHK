@@ -40,14 +40,16 @@ PrintScreen::Send #+s
 
 ; Controles de volumen con el raton, cuando el puntero esta sobre la barra de 
 ; tareas, con la rueda del ratón el volumen, y con el clic central el mute.
-; Con varias pantallas solo funciona en una de ellas.
-#If MouseIsOver("ahk_class Shell_TrayWnd")
+
+MouseIsOver(WinTitle) {
+    MouseGetPos,,, Win
+    return WinExist(WinTitle . " ahk_id " . Win)
+}
+    
+#If MouseIsOver("ahk_class Shell_TrayWnd") or MouseIsOver("ahk_class Shell_SecondaryTrayWnd")
     WheelUp::Send {Volume_Up}
     WheelDown::Send {Volume_Down}
     Mbutton::Send {Volume_Mute}
-
-    MouseIsOver(WinTitle) {
-        MouseGetPos,,, Win
-        return WinExist(WinTitle . " ahk_id " . Win)
-    }
-return
+    return
+#If
+    
